@@ -59,7 +59,7 @@ class mandrill_outbound(orm.Model):
             return False
         return api_key
 
-    def call_cron_mandrill_outbound(self, cr, uid, context=None):
+    def call_cron_mandrill_outbound(self, cr, uid, ids, context=None):
         api_key = self._api_key(cr, uid, ids,
                                 context=context)
         if api_key is False:
