@@ -74,31 +74,32 @@ class mandrill_outbound(orm.Model):
         result = mandrill_client.messages.search(query='*',
                                                  date_from=date_init,
                                                  date_to=date_now)
+        masc = "%Y-%m-%d %H:%M:%S"
+        date_now = datetime.datetime.now().strftime(masc)
 
         for email in result:
             mandrill_ids = mandrill_out.search(cr, uid,
                                                [('email_id', '=', email['_id'])
                                                 ], context=context)
+            opens = email['opens']
+            clicks = email['clicks']
+            mandrill_map = {"name": email['subject'],
+                            "email_id": email['_id'],
+                            "opens": opens if type(opens) is int else 0,
+                            "clicks": clicks if type(clicks) is int else 0,
+                            "from": email['sender'],
+                            "to": email['email'],
+                            "state": email['state'],
+                            "date": date_now,
+                            }
+
             if not mandrill_ids:
-                masc = "%Y-%m-%d %H:%M:%S"
-                date_now = datetime.datetime.now().strftime(masc)
-                mandrill_out.create(cr, uid, {"name": email['subject'],
-                                              "email_id": email['_id'],
-                                              "opens": email['opens'],
-                                              "clicks": email['clicks'],
-                                              "from": email['sender'],
-                                              "to": email['email'],
-                                              "state": email['state'],
-                                              "date": date_now,
-                                              }, context=context)
+                mandrill_out.create(cr, uid,
+                                    mandrill_map,
+                                    context=context)
                 continue
+
+            del mandrill_map['date']
             mandrill_out.write(cr, uid, mandrill_ids,
-                               {"name": email['subject'],
-                                "email_id": email['_id'],
-                                "opens": email['opens'],
-                                "clicks": email['clicks'],
-                                "from": email['sender'],
-                                "to": email['email'],
-                                "state": email['state'],
-                                # "date": date_now,
-                                }, context=context)
+                               mandrill_map,
+                               context=context)
