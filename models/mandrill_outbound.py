@@ -99,9 +99,9 @@ class mandrill_outbound(orm.Model):
             if not mandrill_ids:
                 try:
                     result_cont = mandrill_client.messages.content(id=email['_id'])
-                    mandrill_map['content'] = = result_cont['text']
+                    mandrill_map['content'] = result_cont['text']
                 except mandrill.Error, e:
-                    mandrill_map['content'] = = "No available"
+                    mandrill_map['content'] = "No available"
 
                 mandrill_out.create(cr, uid,
                                     mandrill_map,
