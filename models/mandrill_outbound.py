@@ -38,14 +38,16 @@ class mandrill_outbound(orm.Model):
         'email_id': fields.char("Mandrill internal id", size=200,
                                 readonly=True,
                                 required=True),
-        'opens': fields.char("Opens", size=10, default=0, readonly=True,
-                             required=True),
-        'clicks': fields.char("Clicks", size=10, default=0, readonly=True,
-                              required=True),
+        'opens': fields.integer("Opens", size=10, default=0, readonly=True,
+                                required=True),
+        'clicks': fields.integer("Clicks", size=10, default=0, readonly=True,
+                                 required=True),
         'from': fields.char("From", size=200, readonly=True, required=False),
         'to': fields.char("To", size=1000, readonly=True, required=False),
         'state': fields.char("State", size=50, readonly=True, required=False),
         'date': fields.datetime('Register date', readonly=True, required=True),
+        'content': fields.char("Content", size=5000, readonly=True,
+                               required=False),
     }
 
     def _api_key(self, cr, uid, ids, context=None):
@@ -81,6 +83,12 @@ class mandrill_outbound(orm.Model):
             mandrill_ids = mandrill_out.search(cr, uid,
                                                [('email_id', '=', email['_id'])
                                                 ], context=context)
+            try:
+                result_cont = mandrill_client.messages.content(id=email['_id'])
+                content = result_cont['text']
+            except mandrill.Error, e:
+                content = "No available"
+
             opens = int(email['opens'])
             clicks = int(email['clicks'])
             mandrill_map = {"name": email['subject'],
@@ -91,6 +99,7 @@ class mandrill_outbound(orm.Model):
                             "to": email['email'],
                             "state": email['state'],
                             "date": date_now,
+                            "content": content,
                             }
 
             if not mandrill_ids:
