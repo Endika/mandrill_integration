@@ -39,13 +39,13 @@ class mandrill_outbound(orm.Model):
                                 readonly=True,
                                 required=True),
         'opens': fields.char("Opens", size=10, default=0, readonly=True,
-                             required=False),
+                             required=True),
         'clicks': fields.char("Clicks", size=10, default=0, readonly=True,
-                              required=False),
+                              required=True),
         'from': fields.char("From", size=200, readonly=True, required=False),
         'to': fields.char("To", size=1000, readonly=True, required=False),
         'state': fields.char("State", size=50, readonly=True, required=False),
-        'date': fields.datetime('Register date', readonly=True),
+        'date': fields.datetime('Register date', readonly=True, required=True),
     }
 
     def _api_key(self, cr, uid, ids, context=None):
