@@ -85,8 +85,8 @@ class mandrill_outbound(orm.Model):
             clicks = email['clicks']
             mandrill_map = {"name": email['subject'],
                             "email_id": email['_id'],
-                            "opens": opens if type(opens) is int else 0,
-                            "clicks": clicks if type(clicks) is int else 0,
+                            "opens": opens if len(opens) > 0 else 0,
+                            "clicks": clicks if len(clicks) > 0 else 0,
                             "from": email['sender'],
                             "to": email['email'],
                             "state": email['state'],
