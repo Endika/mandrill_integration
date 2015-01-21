@@ -73,13 +73,13 @@ class mandrill_outbound(orm.Model):
         date_rest = datetime.datetime.now().strftime("-%m-%d")
         date_init = str(int(year_now)-1) + date_rest
         mandrill_client = mandrill.Mandrill(api_key)
-        result = mandrill_client.messages.search(query='*',
-                                                 date_from=date_init,
-                                                 date_to=date_now)
+        email_list = mandrill_client.messages.search(query='*',
+                                                     date_from=date_init,
+                                                     date_to=date_now)
         masc = "%Y-%m-%d %H:%M:%S"
         date_now = datetime.datetime.now().strftime(masc)
 
-        for email in result:
+        for email in email_list:
             mandrill_ids = mandrill_out.search(cr, uid,
                                                [('email_id', '=', email['_id'])
                                                 ], context=context)
@@ -98,8 +98,8 @@ class mandrill_outbound(orm.Model):
 
             if not mandrill_ids:
                 try:
-                    result_cont = mandrill_client.messages.content(id=email['_id'])
-                    mandrill_map['content'] = result_cont['text']
+                    e_cont = mandrill_client.messages.content(id=email['_id'])
+                    mandrill_map['content'] = e_cont['text']
                 except mandrill.Error, e:
                     mandrill_map['content'] = "No available"
 
