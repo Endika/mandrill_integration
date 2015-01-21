@@ -83,11 +83,6 @@ class mandrill_outbound(orm.Model):
             mandrill_ids = mandrill_out.search(cr, uid,
                                                [('email_id', '=', email['_id'])
                                                 ], context=context)
-            try:
-                result_cont = mandrill_client.messages.content(id=email['_id'])
-                content = result_cont['text']
-            except mandrill.Error, e:
-                content = "No available"
 
             opens = int(email['opens'])
             clicks = int(email['clicks'])
@@ -99,10 +94,15 @@ class mandrill_outbound(orm.Model):
                             "to": email['email'],
                             "state": email['state'],
                             "date": date_now,
-                            "content": content,
                             }
 
             if not mandrill_ids:
+                try:
+                    result_cont = mandrill_client.messages.content(id=email['_id'])
+                    mandrill_map['content'] = = result_cont['text']
+                except mandrill.Error, e:
+                    mandrill_map['content'] = = "No available"
+
                 mandrill_out.create(cr, uid,
                                     mandrill_map,
                                     context=context)
