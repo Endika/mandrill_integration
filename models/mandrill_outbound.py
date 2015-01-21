@@ -33,7 +33,8 @@ class mandrill_outbound(orm.Model):
     _name = "mandrill.outbound"
     _description = "Mandrill Outbound"
     _columns = {
-        'name': fields.char("Subject email", size=200, required=True),
+        'name': fields.char("Subject email", size=200, readonly=True,
+                            required=True),
         'email_id': fields.char("Mandrill internal id", size=200,
                                 readonly=True,
                                 required=True),
@@ -90,3 +91,14 @@ class mandrill_outbound(orm.Model):
                                               "state": email['state'],
                                               "date": date_now,
                                               }, context=context)
+                continue
+            mandrill_out.write(cr, uid, mandrill_ids,
+                               {"name": email['subject'],
+                                "email_id": email['_id'],
+                                "opens": email['opens'],
+                                "clicks": email['clicks'],
+                                "from": email['sender'],
+                                "to": email['email'],
+                                "state": email['state'],
+                                # "date": date_now,
+                                }, context=context)

@@ -33,7 +33,7 @@ class mandrill_config_settings(osv.TransientModel):
     def get_default_api_key(self, cr, uid, fields, context=None):
         conf_par = self.pool.get('ir.config_parameter')
         api_key = conf_par.get_param(cr, uid,
-                                     'mandrill_integration.api_key',
+                                     'mandrill_outbound.api_key',
                                      default="",
                                      context=context)
 
@@ -44,6 +44,6 @@ class mandrill_config_settings(osv.TransientModel):
         for record in self.browse(cr, uid, ids, context=context):
             api_key = record.api_key
             config_parameters.set_param(cr, uid,
-                                        'mandrill_integration.api_key',
+                                        'mandrill_outbound.api_key',
                                         api_key,
                                         context=context)

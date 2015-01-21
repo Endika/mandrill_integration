@@ -32,7 +32,7 @@
 Mandrill Integration
 =====================
 Only integrated outbound area.
-TODO: integrated all
+TODO: integrate all
     """,
     "depends": [],
     "data": [

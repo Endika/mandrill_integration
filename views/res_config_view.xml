@@ -18,6 +18,7 @@
                             <div name="api_key">
                                 <label for="api_key"/>
                                 <field name="api_key" class="oe_inline"/>
+                                <p>You need to add the api key to the Mandrill account to manage.</p>
                             </div>
                         </div>
                     </group>

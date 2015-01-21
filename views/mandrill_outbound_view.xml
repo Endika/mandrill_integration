@@ -22,14 +22,16 @@
             <field name="model">mandrill.outbound</field>
             <field name="arch" type="xml">
                 <form string="Mandrill Outbound">
-                    <field name="email_id"/>
-                    <field name="name"/>
-                    <field name="opens"/>
-                    <field name="clicks"/>
-                    <field name="from"/>
-                    <field name="to"/>
-                    <field name="date"/>
-                    <field name="state"/>
+                    <div>
+                        <p><label for="email_id" class="oe_inline" /> <field name="email_id" class="oe_inline"/></p>
+                        <p><label for="name" class="oe_inline" /> <field name="name" class="oe_inline"/></p>
+                        <p><label for="opens" class="oe_inline" /> <field name="opens" class="oe_inline"/></p>
+                        <p><label for="clicks" class="oe_inline" /> <field name="clicks" class="oe_inline"/></p>
+                        <p><label for="from" class="oe_inline" /> <field name="from" class="oe_inline"/></p>
+                        <p><label for="to" class="oe_inline" /> <field name="to" class="oe_inline"/></p>
+                        <p><label for="date" class="oe_inline" /> <field name="date" class="oe_inline"/></p>
+                        <p><label for="state" class="oe_inline" /> <field name="state" class="oe_inline"/></p>
+                    </div>
                 </form>
             </field>
         </record>
