@@ -42,7 +42,7 @@ class mandrill_config_settings(osv.TransientModel):
     def set_api_key(self, cr, uid, ids, context=None):
         config_parameters = self.pool.get('ir.config_parameter')
         for record in self.browse(cr, uid, ids, context=context):
-            api_key = record.last_sync
+            api_key = record.api_key
             config_parameters.set_param(cr, uid,
                                         'mandrill_integration.api_key',
                                         api_key,

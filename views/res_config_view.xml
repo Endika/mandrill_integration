@@ -12,7 +12,7 @@
                         or
                         <button string="Cancel" type="object" name="cancel" class="oe_link"/>
                     </header>
-                    <separator string="API key"/>
+                    <separator string="Mandrill Integration"/>
                     <group>
                         <div>
                             <div name="api_key">
