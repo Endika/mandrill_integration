@@ -81,12 +81,12 @@ class mandrill_outbound(orm.Model):
             mandrill_ids = mandrill_out.search(cr, uid,
                                                [('email_id', '=', email['_id'])
                                                 ], context=context)
-            opens = email['opens']
-            clicks = email['clicks']
+            opens = int(email['opens'])
+            clicks = int(email['clicks'])
             mandrill_map = {"name": email['subject'],
                             "email_id": email['_id'],
-                            "opens": opens if len(opens) > 0 else 0,
-                            "clicks": clicks if len(clicks) > 0 else 0,
+                            "opens": opens if opens > 0 else 0,
+                            "clicks": clicks if clicks > 0 else 0,
                             "from": email['sender'],
                             "to": email['email'],
                             "state": email['state'],
