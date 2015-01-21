@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-	    <record model="ir.cron" id="bacosoft_connection_cron">
+	    <record model="ir.cron" id="mandrill_integration_cron">
 	            <field name="name">Check Mandrill Outbound</field>
 	            <field name="interval_number">5</field>
 	            <field name="interval_type">minutes</field>
