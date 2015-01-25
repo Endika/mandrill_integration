@@ -31,14 +31,17 @@
     "description": """
 Mandrill Integration
 =====================
-Only integrated outbound area.
-TODO: integrate all
+Only integrated outbound area. You only synchronize the outbound email
     """,
     "depends": [],
     "data": [
         "views/mandrill_outbound_view.xml",
         "views/res_config_view.xml",
         "views/mandrill_cron.xml",
+        "security/ir.model.access.csv",
     ],
+    'external_dependencies': {
+        'python': ['mandrill'],
+    },
     "installable": True,
 }

@@ -57,7 +57,7 @@
         </record>
 
         <!-- ### MENU ACCESS ### -->
-        <menuitem id="mandrill_integration" name="Mandrill Integration" parent="base.menu_definitions" sequence="60"/>
+        <menuitem id="mandrill_integration" name="Mandrill Integration" parent="base.menu_email" sequence="60"/>
 
         <menuitem id="menu_mandrill_outbound"
             parent="mandrill_integration"
