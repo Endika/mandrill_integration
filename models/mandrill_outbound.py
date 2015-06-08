@@ -1,11 +1,8 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
 #    This module copyright :
-#        (c) 2014 Antiun Ingenieria, SL (Madrid, Spain, http://www.antiun.com)
-#                 Endika Iglesias <endikaig@antiun.com>
-#                 Antonio Espinosa <antonioea@antiun.com>
+#        (c) 2015 Endika Iglesias <endika2@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,33 +19,28 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, fields
+from openerp import models, fields
 import datetime
-from openerp.tools.config import config
 import mandrill
-import datetime
 
 
-class mandrill_outbound(orm.Model):
+class MandrillOutbound(models.Model):
     _name = "mandrill.outbound"
     _description = "Mandrill Outbound"
-    _columns = {
-        'name': fields.char("Subject email", size=200, readonly=True,
-                            required=True),
-        'email_id': fields.char("Mandrill internal id", size=200,
-                                readonly=True,
-                                required=True),
-        'opens': fields.integer("Opens", size=10, default=0, readonly=True,
-                                required=True),
-        'clicks': fields.integer("Clicks", size=10, default=0, readonly=True,
-                                 required=True),
-        'from': fields.char("From", size=200, readonly=True, required=False),
-        'to': fields.char("To", size=1000, readonly=True, required=False),
-        'state': fields.char("State", size=50, readonly=True, required=False),
-        'date': fields.datetime('Register date', readonly=True, required=True),
-        'content': fields.char("Content", size=5000, readonly=True,
-                               required=False),
-    }
+
+    name = fields.Char(
+        "Subject email", size=200, readonly=True, required=True)
+    email_id = fields.Char(
+        "Mandrill internal id", size=200, readonly=True, required=True)
+    opens = fields.Integer(
+        "Opens", size=10, default=0, readonly=True, required=True)
+    clicks = fields.Integer(
+        "Clicks", size=10, default=0, readonly=True, required=True)
+    sender = fields.Char("From", size=200, readonly=True, required=False)
+    to = fields.Char("To", size=1000, readonly=True, required=False)
+    state = fields.Char("State", size=50, readonly=True, required=False)
+    date = fields.Datetime('Register date', readonly=True, required=True)
+    content = fields.Char("Content", size=5000, readonly=True, required=False)
 
     def _api_key(self, cr, uid, ids, context=None):
         config_pool = self.pool.get('ir.config_parameter')
@@ -71,7 +63,7 @@ class mandrill_outbound(orm.Model):
         date_now = datetime.datetime.now().strftime("%Y-%m-%d")
         year_now = datetime.datetime.now().strftime("%Y")
         date_rest = datetime.datetime.now().strftime("-%m-%d")
-        date_init = str(int(year_now)-1) + date_rest
+        date_init = str(int(year_now) - 1) + date_rest
         mandrill_client = mandrill.Mandrill(api_key)
         email_list = mandrill_client.messages.search(query='*',
                                                      date_from=date_init,
@@ -90,7 +82,7 @@ class mandrill_outbound(orm.Model):
                             "email_id": email['_id'],
                             "opens": opens if opens > 0 else 0,
                             "clicks": clicks if clicks > 0 else 0,
-                            "from": email['sender'],
+                            "sender": email['sender'],
                             "to": email['email'],
                             "state": email['state'],
                             "date": date_now,
@@ -100,7 +92,7 @@ class mandrill_outbound(orm.Model):
                 try:
                     e_cont = mandrill_client.messages.content(id=email['_id'])
                     mandrill_map['content'] = e_cont['text']
-                except mandrill.Error, e:
+                except mandrill.Error:
                     mandrill_map['content'] = "No available"
 
                 mandrill_out.create(cr, uid,

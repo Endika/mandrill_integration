@@ -23,7 +23,7 @@
             <field name="arch" type="xml">
                 <form string="Mandrill Outbound">
                     <div>
-                        <p><label for="from" class="oe_inline" /> <field name="from" class="oe_inline"/></p>
+                        <p><label for="sender" class="oe_inline" /> <field name="sender" class="oe_inline"/></p>
                         <p><label for="to" class="oe_inline" /> <field name="to" class="oe_inline"/></p>
                         <p><label for="name" class="oe_inline" /> <field name="name" class="oe_inline"/></p>
                         <p><label for="content" class="oe_inline" /> <field name="content" class="oe_inline"/></p>
